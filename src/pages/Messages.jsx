@@ -12,7 +12,8 @@ export default function Messages() {
   const { user } = useAuth();
   const nav = useNavigate();
   const loc = useLocation();
-  const [convs, setConvs] = useState(getConversations);
+  const me = user?.name || "You";
+  const [convs, setConvs] = useState(() => getConversations());
   const [active, setActive] = useState(null);
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState("");
@@ -23,6 +24,8 @@ export default function Messages() {
     { id: "d2", from: "You", text: "Yes, ready for collection from Friday.", at: Date.now() - 240000 },
     { id: "d3", from: "Mwangi Farmers Group", text: "Could we discuss KES 56/kg for the full amount?", at: Date.now() - 120000 },
   ]);
+
+  const endRef = useRef(null);
 
   const reload = () => { const c = getConversations().sort((a, b) => b.updatedAt - a.updatedAt); setConvs(c); return c; };
 
